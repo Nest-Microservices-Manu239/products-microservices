@@ -4,7 +4,7 @@ import {
   //Post,
   //Body,
   //Patch,
-  Param,
+  //Param,
   //Delete,
   //Query,
   ParseIntPipe,
@@ -33,8 +33,8 @@ export class ProductosController {
 
   // @Get(':id')
   @MessagePattern({ cmd: 'find_one_product' })
-  findOne(@Param('id') id: string) {
-    return this.productosService.findOne(+id);
+  findOne(@Payload('id', ParseIntPipe) id: number) {
+    return this.productosService.findOne(id);
   }
 
   //@Patch(':id')
@@ -47,5 +47,10 @@ export class ProductosController {
   @MessagePattern({ cmd: 'delete_product' })
   remove(@Payload('id', ParseIntPipe) id: number) {
     return this.productosService.remove(id);
+  }
+
+  @MessagePattern({ cmd: 'validate_products' })
+  validateProducts(@Payload() productIds: number[]) {
+    return this.productosService.validateProducts(productIds);
   }
 }
